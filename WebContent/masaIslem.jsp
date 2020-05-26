@@ -19,48 +19,43 @@
 <body>
 	
 	<%
-			GarsonlarDAO garsonDao=new GarsonlarDAO();
-			List<Garsonlar> Garsonlar=garsonDao.readingData();
+			MasaDAO masaDao=new MasaDAO();
+			List<Masa> masalar=masaDao.readingData();
 	%>
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="container-fluid text-center"><br>
-				<h1>Garson Ekle/Sil</h1>
+				<h1>Masa Ekle/Sil</h1>
 				<a href="index.jsp"><button >AnaSayfa</button></a>
 			</div>			
 		</div>
 
 		<div class="row gIslem">
 			<div class="col-6 text-center">
-				<form action="garsonEkle" method="POST">
+				<form action="masaEkle" method="POST">
 					<table class="mx-auto w-auto" style=" border-spacing:21px;border-collapse: separate;">
 						<tr>
-							<td>Garsonun Adi Soyadi : </td><td><input type="text" class="form-control" name="garsonAd" required></td>
+							<td>Masa Adi : </td><td><input type="text" class="form-control" name="masaAdi" required></td>
 						</tr>
+						
 						<tr>
-							<td>Garson TC Kimlik : </td><td><input type="text" class="form-control" required name="garsonTc"></td>
-						</tr>
-						<tr>
-							<td>Garsonun Dogum Tarihi : </td><td><input type="date" class="form-control" name="garsonDogumTarihi" required></td>
-						</tr>
-						<tr>
-							<td><input type="submit" value="Garson Ekle" name="btnEkle"></td>
+							<td><input type="submit" value="Masa Ekle" name="btnEkle"></td>
 						</tr>
 					</table>
 				</form>
 			</div>
 				<div class="col-6 text-center">
-				<form action="garsonSil" method="POST">
+				<form action="masaSil" method="POST">
 					<table class="mx-auto w-auto" style=" border-spacing:21px;border-collapse: separate;">
 						<tr>
-							<td>Cikartilacak Garsonu Sec : </td><td><select id="grsnsec" name="garsonKodu" style="width: 150px;">
+							<td>Cikartilacak Masa Sec : </td><td><select id="grsnsec" name="masaKodu" style="width: 150px;">
 									  
 									  <%
-									  		for(Garsonlar garson:Garsonlar){
+									  		for(Masa masa:masalar){
 									  			
 									  	%>
-									  			<option value="<%=garson.getGarsonKodu() %>"><%=garson.getGarsonAd() %></option>
+									  			<option value="<%=masa.getMasaKodu() %>"><%=masa.getMasaAdi() %></option>
 									  	
 									  		<%}
 									  %>
@@ -68,10 +63,10 @@
 								</select></td>
 						</tr>
 						<tr>
-							<td>Garson ID:     <label id="gID"></label> </td>
+							<td>Masa ID:     <label id="gID"></label> </td>
 						</tr>
 						<tr>
-							<td><input type="submit" value="Garson Sil" name="btnCikart"></td>
+							<td><input type="submit" value="Masa Sil" name="btnCikart"></td>
 						</tr>
 					</table>
 				</form>
@@ -86,26 +81,24 @@
 				<table class="table table-striped">
 			  <thead>
 			    <tr>
-			      <th scope="col">Garson Kodu</th>
-			      <th scope="col">Garson Adi</th>
-			      <th scope="col">Garson Tc Kimlik</th>
-			      <th scope="col">Garson Dogum Tarihi</th>
+			      <th scope="col">Masa Kodu</th>
+			      <th scope="col">Masa Adi</th>
+			      
 			    </tr>
 			  </thead>
 			  <tbody>
 			    
 			    	<%
 			    	
-			    			for(Garsonlar garson:Garsonlar){
+			    			for(Masa masa:masalar){
 			    				
 			    				
 			    	 %>
 			    				
 			    				<tr>
-							      <th ><%=garson.getGarsonKodu() %></th>
-							      <td><%=garson.getGarsonAd() %></td>
-							      <td><%=garson.getGarsonTc() %></td>
-							      <td><%=garson.getGarsonDogumTarihi() %></td>
+							      <th ><%=masa.getMasaKodu() %></th>
+							      <td><%=masa.getMasaAdi() %></td>
+							      
 							    </tr>
 			    				
 			    				
@@ -119,6 +112,9 @@
 			</div>
 		
 		</div>
+		
+		
+		
 
 	</div>
 	<script type="text/javascript">

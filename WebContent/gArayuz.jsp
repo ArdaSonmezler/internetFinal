@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" import="java.util.*,com.IP.Classes.*,com.IP.DAO.*"%>
 <!DOCTYPE html>
 
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Arda Sönmezler | Developer</title>
+	<title>Arda Sonmezler | Developer</title>
 	<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/bootstrap.bundle.js"></script>
@@ -17,26 +17,48 @@
 
 </head>
 <body>
+
+			<%
+			
+				GarsonlarDAO garsonDao=new GarsonlarDAO();
+				List<Garsonlar> garsonlar=garsonDao.readingData();
+				
+				MasaDAO masaDao=new MasaDAO();
+				List<Masa> masalar=masaDao.readingData();
+				
+				SiparisDAO siparisDao=new SiparisDAO();
+				List<Siparisler> siparisler=siparisDao.readingData();
+		%>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="container-fluid text-center">
-				<h1>Garson Arayüzü</h1>
-			</div>			
+				<h1>Garson Arayuzu</h1>
+				<a href="index.jsp"><button >AnaSayfa</button></a>
+			</div>
+					
 		</div>
 
 		<div class="row">
 			<div class="col-12 text-center">
 				<div class="container-fluid">
-				<form action="#" method="POST"> <!--Form Başlangıcı // Action Bilgisi girilecek-->
+				<form action="masaGarsonEkle" method="POST"> <!--Form Başlangıcı // Action Bilgisi girilecek-->
 					<table class="mx-auto w-auto" style=" border-spacing:21px;border-collapse: separate;"><!--Tablo Başlangıcı //-->
 						<tr>
 							<td>Garson :</td>
 							<td>
-								<select id="garsonSec" name="gSec" style="width: 150px;">
-									  <option value="124512">Garson1</option>
-									  <option value="212451">Garson2</option>
-									  <option value="321245">Garson3</option>
-									  <option value="432124">Garson4</option>
+								<select id="garsonSec" name="garson" style="width: 150px;">
+									  
+									 <%
+									 		
+									 		for(Garsonlar garson:garsonlar){
+									 			
+									 	 %>
+									 			
+									 			<option value=<%=garson.getGarsonKodu() %>><%=garson.getGarsonAd() %></option>
+									 		
+									 	 <%}
+									 
+									 %>
 								</select>
 
 							</td>
@@ -48,51 +70,121 @@
 							</td>
 						</tr>
 						<tr>
-							<td>Hizmet Verdiği Masalar :</td>
+							<td>Hizmet Verdigi Masalar :</td>
 							<td>
-								<select id="hzmtMasa1" name="hzmtms1" style="width: 150px;">
-									  <option value="0" selected>Seçiniz</option>
-									  <option value="1">Masa1</option>
-									  <option value="2">Masa2</option>
-									  <option value="3">Masa3</option>
-									  <option value="4">Masa4</option>
-									  <option value="5">Masa5</option>
-									  <option value="6">Masa6</option>
-									  <option value="7">Masa7</option>
-									  <option value="8">Masa8</option>
-									  <option value="9">Masa9</option>
+								<select id="hzmtMasa1" name="masa1" style="width: 150px;">
+									  <option value="0" selected>Seciniz</option>
+									 
+									 <%
+									 
+									 		for(Masa masa:masalar){
+									 			
+									  %>
+									 			
+									 			<option value=<%=masa.getMasaKodu() %>><%=masa.getMasaAdi() %></option>
+									 		
+									 <%		}
+									 
+									 %>
+									 
+									  
 								</select> 
-								<select id="hzmtMasa2" name="hzmtms2" style="width: 150px;">
-									  <option value="0" selected>Seçiniz</option>	
-									  <option value="1">Masa1</option>
-									  <option value="2">Masa2</option>
-									  <option value="3">Masa3</option>
-									  <option value="4">Masa4</option>
-									  <option value="5">Masa5</option>
-									  <option value="6">Masa6</option>
-									  <option value="7">Masa7</option>
-									  <option value="8">Masa8</option>
-									  <option value="9">Masa9</option>
+								<select id="hzmtMasa2" name="masa2" style="width: 150px;">
+									  <option value="0" selected>Seciniz</option>	
+									  <%
+									 
+									 		for(Masa masa:masalar){
+									 			
+									  %>
+									 			
+									 			<option value=<%=masa.getMasaKodu() %>><%=masa.getMasaAdi() %></option>
+									 		
+									 <%		}
+									 
+									 %>
 								</select>
 							</td>
-						</tr>
-
-						<tr>
 							
-							<td>Garsonun Bugün Aldığı Toplam Hesap : </td>
-							<td>
-								<label id="grsnGnlk"></label>
-							</td>
 						</tr>
 
+							
 					</table>
-
+								<div>
+									<button type="submit">Ekle</button>
+							
+							</div>
 				</form>
+				
+				
 				</div>
+				
+				
 			</div>
 		</div>
+			
+			<div class="row mt-5">
+				
+				<div class="col-2"></div>
+				<div class="col-8">
+							
+							<%
+								int hesapSayisi=0;
+								int hesapTutari=0;
+							%>
+						
+					
+							<table class="table table-striped">
+							  <thead>
+							    <tr>
+							      <th scope="col">Masa Adi</th>
+							      <th scope="col">Garson Adi</th>
+							     
+							    </tr>
+							  </thead>
+							  
+							  
+							  
+							  
+							    	<%
+							    			
+							    		for(Masa masa:masalar){
+							    	 %>
+							    			
+							    		<tr>
+						      				<th scope="row"><%=masa.getMasaAdi() %></th>
+						      				
+						      		<%
+						      				
+						      		 		for(Garsonlar garson:garsonlar)	{
+						      		 			
+						      		 			if(masa.getGarsonKodu()==garson.getGarsonKodu()){
+						      		 				
+						      		 %>			
+						      		 				
+						      		 				 <td><%=garson.getGarsonAd() %></td>
+						      		 				
+						      		 				
+						      		 <%			}
 
-
+						      		 		}
+						      		
+						      		%>
+						      		
+						   		       </tr>
+							    			
+							    			
+							    	 <%	}
+							    	
+							    	%>
+							    
+							</tbody>
+							</table>
+								
+			
+						
+						
+				</div>
+			</div>
 	</div>
 
 	<script type="text/javascript">
